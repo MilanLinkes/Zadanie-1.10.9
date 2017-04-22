@@ -35,18 +35,49 @@ float dist_haus_line_circ(SEGMENT *s, CIRCLE *c){
 	
 	ang_1=cos((segA*cbx+segB*cby)/(sqrt(pow(segA,2)+pow(segB,2))*sqrt(pow(cbx,2)+pow(cby,2))));
 	ang_2=cos((segA*cex+segB*cey)/(sqrt(pow(segA,2)+pow(segB,2))*sqrt(pow(cex,2)+pow(cey,2))));
+	cd=(sqrt(pow(cbx,2)+pow(cby,2)))-c->r;
+	cc=(sqrt(pow(cex,2)+pow(cey,2)))-c->r;
 	
 	if(ang_1 < RIGHT_ANGLE && ang_2 < RIGHT_ANGLE){
 	// VZDIALENOST BODU OD PRIAMKY
-	} else {
+	} 
+	else {
 		if(ang_1 >= RIGHT_ANGLE){
-			cb = (sqrt(pow(cbx,2)+pow(cby,2)))+(c->r);
-			printf("cb: %f\n", cb);
-		} else{
-			ca = (sqrt(pow(cex,2)+pow(cey,2)))+(c->r);
-			printf("ca: %f\n", ca);
-		}
-	}	
+			
+			ca = (sqrt(pow(cbx,2)+pow(cby,2)))+c->r;
+			   if (ca>=cd)
+    {
+        if(ca>=cc)
+            printf("%.2lf is the largest number.", ca);
+        else
+            printf("%.2lf is the largest number.", cc);
+    }
+    else{
+        if(cd>=cc)
+            printf("%.2lf is the largest number.", cd);
+        else
+            printf("%.2lf is the largest number.", cc);
+    }
+		} 
+		else{
+			cb = (sqrt(pow(cex,2)+pow(cey,2)))+c->r;
+			printf("ca: %f\n", cb);
+			
+			if (cb>=cd)
+    {
+        if(cb>=cc)
+            printf("%.2lf is the largest number.", cb);
+        else
+            printf("%.2lf is the largest number.", cc);
+    }
+    else{
+        if(cd>=cc)
+            printf("%.2lf is the largest number.", cd);
+        else
+            printf("%.2lf is the largest number.", cc);
+    		}
+	}
+}	
 	return ang_1;
 }
 
