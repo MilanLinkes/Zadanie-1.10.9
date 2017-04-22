@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#define RIGHT_ANGLE 1.570796
 
 typedef struct{
 	float x;
@@ -35,8 +36,17 @@ float dist_haus_line_circ(SEGMENT *s, CIRCLE *c){
 	ang_1=cos((segA*cbx+segB*cby)/(sqrt(pow(segA,2)+pow(segB,2))*sqrt(pow(cbx,2)+pow(cby,2))));
 	ang_2=cos((segA*cex+segB*cey)/(sqrt(pow(segA,2)+pow(segB,2))*sqrt(pow(cex,2)+pow(cey,2))));
 	
-	printf("%f\n",ang_2);
-	
+	if(ang_1 < RIGHT_ANGLE && ang_2 < RIGHT_ANGLE){
+	// VZDIALENOST BODU OD PRIAMKY
+	} else {
+		if(ang_1 >= RIGHT_ANGLE){
+			cb = (sqrt(pow(cbx,2)+pow(cby,2)))+(c->r);
+			printf("cb: %f\n", cb);
+		} else{
+			ca = (sqrt(pow(cex,2)+pow(cey,2)))+(c->r);
+			printf("ca: %f\n", ca);
+		}
+	}	
 	return ang_1;
 }
 
