@@ -38,46 +38,46 @@ float dist_haus_line_circ(SEGMENT *s, CIRCLE *c){
 	cd=(sqrt(pow(cbx,2)+pow(cby,2)))-c->r;
 	cc=(sqrt(pow(cex,2)+pow(cey,2)))-c->r;
 	
-	if(ang_1 < RIGHT_ANGLE && ang_2 < RIGHT_ANGLE){
+if(ang_1 < RIGHT_ANGLE && ang_2 < RIGHT_ANGLE){
 	// VZDIALENOST BODU OD PRIAMKY
 	} 
 	else {
 		if(ang_1 >= RIGHT_ANGLE){
-			
 			ca = (sqrt(pow(cbx,2)+pow(cby,2)))+c->r;
-			   if (ca>=cd)
+			
+			if (ca>=cd)
     {
         if(ca>=cc)
-            printf("%.2lf is the largest number.", ca);
+            return ca;
         else
-            printf("%.2lf is the largest number.", cc);
+            return cc;
     }
     else{
         if(cd>=cc)
-            printf("%.2lf is the largest number.", cd);
+            return cd;
         else
-            printf("%.2lf is the largest number.", cc);
+            return cc;
     }
 		} 
 		else{
 			cb = (sqrt(pow(cex,2)+pow(cey,2)))+c->r;
-			printf("ca: %f\n", cb);
-			
+					
 			if (cb>=cd)
     {
         if(cb>=cc)
-            printf("%.2lf is the largest number.", cb);
+            return cb;
         else
-            printf("%.2lf is the largest number.", cc);
+            return cc;
     }
     else{
         if(cd>=cc)
-            printf("%.2lf is the largest number.", cd);
+            return cd;
         else
-            printf("%.2lf is the largest number.", cc);
+            return cc;
     		}
-	}
-}	
+		}
+	}	
+	
 	return ang_1;
 }
 
