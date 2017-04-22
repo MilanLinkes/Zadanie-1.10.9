@@ -19,15 +19,25 @@ typedef struct{
 	
 float dist_haus_line_circ(SEGMENT *s, CIRCLE *c){
 	float ang_1, ang_2;
-	float cbx,cby,cex,cey;
-	cbx=c->p.x-s->beg.x; ///rozdiely suradnic
-	cby=c->p.y-s->beg.y;
-	cex=c->p.x-s->end.x;
-	cey=c->p.y-s->end.y;
-	ang_1=acos((cbx*cex+cby*cey)/(sqrt(pow(cbx,2)+pow(cby,2))*sqrt(pow(cex,2)+pow(cey,2))));
+	float cbx, cby, cex, cey, segA, segB;
+
+	segA=(s->beg.x)-(s->end.x);
+	segB=(s->beg.y)-(s->end.y);
+	
+	cbx=(s->beg.x)-(c->p.x);  //rozdiely suradnic
+	cby=(s->beg.y)-(c->p.y);
+	cex=(c->p.x)-(s->end.x);
+	cey=(c->p.y)-(s->end.y);
+	
+	//printf("%f %f %f %f %f %f\n", cbx, cby, cex, cey, segA, segB);
+	//printf("%f %f\n",segA, segB);
+	
+	ang_1=cos((segA*cbx+segB*cby)/(sqrt(pow(segA,2)+pow(segB,2))*sqrt(pow(cbx,2)+pow(cby,2))));
+	ang_2=cos((segA*cex+segB*cey)/(sqrt(pow(segA,2)+pow(segB,2))*sqrt(pow(cex,2)+pow(cey,2))));
+	
+	printf("%f\n",ang_2);
+	
 	return ang_1;
-	
-	
 }
 
 void main(void){
