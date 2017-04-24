@@ -71,11 +71,16 @@ void main(void){
 	printf("Zadaj polomer kruznice: \n");
 	scanf("%f", &c1.r);
 	
+	while(c1.r <= 0){
+		printf("Polomer musi byt kladne cislo.\nZadaj polomer kruznice: \n");
+		scanf("%f", &c1.r);
+	}
+	
 	printf("Zadaj suradnice bodu A na usecke: \n");
 	scanf("%f%f", &s.beg.x, &s.beg.y);
 	
 	printf("Zadaj suradnice bodu B na usecke: \n");
 	scanf("%f%f", &s.end.x, &s.end.y);
-	printf("%f",dist_haus_line_circ(&s,&c1));
-	 
+	
+	printf("Hausdorfova vzdialenost je: %f\n", dist_haus_line_circ(&s,&c1));
 }
