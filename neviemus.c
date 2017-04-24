@@ -20,65 +20,45 @@ typedef struct{
 	
 float dist_haus_line_circ(SEGMENT *s, CIRCLE *c){
 	float ang_1, ang_2;
-	float cbx, cby, cex, cey, segA, segB;
+	float cbx, cby, cex, cey, segA, segB, cb, ca, cd, cc, n_segA, n_segB, coef, dist;
 
 	segA=(s->beg.x)-(s->end.x);
 	segB=(s->beg.y)-(s->end.y);
-	
+
+	n_segA = segB;
+	n_segB = -segA;
+
 	cbx=(s->beg.x)-(c->p.x);  //rozdiely suradnic
 	cby=(s->beg.y)-(c->p.y);
 	cex=(c->p.x)-(s->end.x);
 	cey=(c->p.y)-(s->end.y);
 	
-	//printf("%f %f %f %f %f %f\n", cbx, cby, cex, cey, segA, segB);
-	//printf("%f %f\n",segA, segB);
+	ang_1=acos((segA*cbx+segB*cby)/(sqrt(pow(segA,2)+pow(segB,2))*sqrt(pow(cbx,2)+pow(cby,2))));
+	ang_2=acos((segA*cex+segB*cey)/(sqrt(pow(segA,2)+pow(segB,2))*sqrt(pow(cex,2)+pow(cey,2))));
 	
-	ang_1=cos((segA*cbx+segB*cby)/(sqrt(pow(segA,2)+pow(segB,2))*sqrt(pow(cbx,2)+pow(cby,2))));
-	ang_2=cos((segA*cex+segB*cey)/(sqrt(pow(segA,2)+pow(segB,2))*sqrt(pow(cex,2)+pow(cey,2))));
 	cd=(sqrt(pow(cbx,2)+pow(cby,2)))-c->r;
 	cc=(sqrt(pow(cex,2)+pow(cey,2)))-c->r;
 	
-if(ang_1 < RIGHT_ANGLE && ang_2 < RIGHT_ANGLE){
-	// VZDIALENOST BODU OD PRIAMKY
+	if(ang_1 <= RIGHT_ANGLE && ang_2 <= RIGHT_ANGLE){
+	coef=-((n_segA*s->beg.x)+(n_segB*s->beg.y));
+	dist=((((n_segA*c->p.x)+(n_segB*c->p.y))+coef)/sqrt(pow(n_segA,2)+pow(n_segB,2)))+c->r;
 	} 
-	else {
-		if(ang_1 >= RIGHT_ANGLE){
-			ca = (sqrt(pow(cbx,2)+pow(cby,2)))+c->r;
-			
-			if (ca>=cd)
-    {
-        if(ca>=cc)
-            return ca;
-        else
-            return cc;
-    }
-    else{
-        if(cd>=cc)
-            return cd;
-        else
-            return cc;
-    }
-		} 
-		else{
-			cb = (sqrt(pow(cex,2)+pow(cey,2)))+c->r;
-					
-			if (cb>=cd)
-    {
-        if(cb>=cc)
-            return cb;
-        else
-            return cc;
-    }
-    else{
-        if(cd>=cc)
-            return cd;
-        else
-            return cc;
-    		}
+
+	if(ang_1 >= RIGHT_ANGLE){
+			dist = (sqrt(pow(cbx,2)+pow(cby,2)))+c->r;
 		}
-	}	
 	
-	return ang_1;
+	if(ang_2 >= RIGHT_ANGLE){
+			dist = (sqrt(pow(cex,2)+pow(cey,2)))+c->r;
+		} 
+	
+	if(dist>=cc && dist >= cd)
+		return dist;
+	if(cc>=dist && cc >= cd)
+		return cc;
+	if(cd >= cc && cd>= dist)
+		return cd;
+
 }
 
 void main(void){
