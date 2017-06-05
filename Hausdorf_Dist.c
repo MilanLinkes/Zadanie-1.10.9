@@ -20,7 +20,7 @@ typedef struct{
 	
 float dist_haus_line_circ(SEGMENT *s, CIRCLE *c){
 	float ang_1, ang_2;
-	float cbx, cby, cex, cey, segA, segB, cb, ca, cd, cc, n_segA, n_segB, coef, dist;
+	float cbx, cby, cex, cey, segA, segB, cb, ca, beg_to_mid, end_to_mid, n_segA, n_segB, coef, dist;
 
 	segA=(s->beg.x)-(s->end.x);
 	segB=(s->beg.y)-(s->end.y);
@@ -36,29 +36,49 @@ float dist_haus_line_circ(SEGMENT *s, CIRCLE *c){
 	ang_1=acos((segA*cbx+segB*cby)/(sqrt(pow(segA,2)+pow(segB,2))*sqrt(pow(cbx,2)+pow(cby,2))));
 	ang_2=acos((segA*cex+segB*cey)/(sqrt(pow(segA,2)+pow(segB,2))*sqrt(pow(cex,2)+pow(cey,2))));
 	
-	cd=(sqrt(pow(cbx,2)+pow(cby,2)))-c->r;
-	cc=(sqrt(pow(cex,2)+pow(cey,2)))-c->r;
+	beg_to_mid=(sqrt(pow(cbx,2)+pow(cby,2)))-c->r;
+	end_to_mid=(sqrt(pow(cex,2)+pow(cey,2)))-c->r;
 	
-	if(ang_1 <= RIGHT_ANGLE && ang_2 <= RIGHT_ANGLE){
-	coef=-((n_segA*s->beg.x)+(n_segB*s->beg.y));
-	dist=((((n_segA*c->p.x)+(n_segB*c->p.y))+coef)/sqrt(pow(n_segA,2)+pow(n_segB,2)))+c->r;
-	} 
+	
+	if((sqrt(pow(cbx,2)+pow(cby,2))) >= c->r || (sqrt(pow(cex,2)+pow(cey,2))) >= c->r) {
+	
+		if(ang_1 <= RIGHT_ANGLE && ang_2 <= RIGHT_ANGLE){
+			coef=-((n_segA*s->beg.x)+(n_segB*s->beg.y));
+			dist=(fabs((((n_segA*c->p.x)+(n_segB*c->p.y))+coef))/sqrt(pow(n_segA,2)+pow(n_segB,2)))+c->r;
+		} 
 
-	if(ang_1 >= RIGHT_ANGLE){
+		if(ang_1 > RIGHT_ANGLE){
 			dist = (sqrt(pow(cbx,2)+pow(cby,2)))+c->r;
 		}
 	
-	if(ang_2 >= RIGHT_ANGLE){
+		if(ang_2 > RIGHT_ANGLE){
 			dist = (sqrt(pow(cex,2)+pow(cey,2)))+c->r;
 		} 
 	
-	if(dist>=cc && dist >= cd)
-		return dist;
-	if(cc>=dist && cc >= cd)
-		return cc;
-	if(cd >= cc && cd>= dist)
-		return cd;
-
+		if(dist>=end_to_mid && dist >= beg_to_mid)
+			return dist;
+		if(end_to_mid>=dist && end_to_mid >= beg_to_mid)
+			return end_to_mid;
+		if(beg_to_mid >= end_to_mid && beg_to_mid>= dist)
+			return beg_to_mid;
+	} 
+	 else {
+		if(ang_1 <= RIGHT_ANGLE && ang_2 <= RIGHT_ANGLE){
+			coef=-((n_segA*s->beg.x)+(n_segB*s->beg.y));
+			dist=(fabs((((n_segA*c->p.x)+(n_segB*c->p.y))+coef))/sqrt(pow(n_segA,2)+pow(n_segB,2)))+c->r;
+			return dist;
+		} 
+		
+		if(ang_1 > RIGHT_ANGLE){
+			dist = (sqrt(pow(cbx,2)+pow(cby,2)))+c->r;
+			return dist;
+		}
+	
+		if(ang_2 > RIGHT_ANGLE){
+			dist = (sqrt(pow(cex,2)+pow(cey,2)))+c->r;
+			return dist;
+		} 
+	}
 }
 
 void main(void){
